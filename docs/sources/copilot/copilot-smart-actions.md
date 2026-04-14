@@ -1,0 +1,128 @@
+---
+title: "AI smart actions in Visual Studio Code"
+description: "Use smart actions in VS Code to get help from AI for common development tasks, such as generating commit messages, renaming symbols, or fixing coding errors."
+source: "https://code.visualstudio.com/docs/copilot/copilot-smart-actions"
+---
+
+For several common scenarios, you can use *smart actions* to get help from AI without having to write a prompt. Examples of these smart actions are generating commit messages, generating documentation, explaining or fixing code, or performing a code review. These smart actions are available throughout the VS Code UI.
+
+## Generate a commit message and PR information
+
+Get help generating commit messages and pull request (PR) titles and descriptions based on your code changes. Use the *sparkle* icon in the Source Control view or GitHub PR extension to generate a title and description that summarizes your changes.
+
+## Resolve merge conflicts with AI (Experimental)
+
+Use AI to help you resolve Git merge conflicts. Select the **Resolve Merge Conflict with AI** button in the editor to open the Chat view and start an agentic flow to help you resolve the merge conflict. The merge base and changes from each branch are provided as context for the AI.
+
+If you have the GitHub Pull Requests extension installed, you can use AI to implement `TODO` comments in your code with Copilot cloud agent.
+
+1. Make sure you have the GitHub Pull Requests extension installed.
+2. Add a `TODO` comment in your code. A code action (lightbulb) appears next to the comment.
+3. Select the code action and select **Delegate to coding agent**.
+
+## Rename symbols
+
+When you rename a symbol in your code, get AI-generated suggestions for a new name based on the context of the symbol and the codebase.
+
+## Generate alt text for images in Markdown
+
+Use AI to generate or update alt text for images in Markdown files. To generate alt text:
+
+1. Open a Markdown file.
+2. Put the cursor on an image link.
+3. Select the Code Action (lightbulb) icon and select **Generate alt text**.
+4. If you already have an alt text, select the Code Action, and select **Refine alt text**.
+
+## Generate documentation
+
+Use AI to generate code documentation for multiple languages.
+
+1. Open your application code file.
+2. Optionally, select the code you want to document.
+3. Right-click and select **Generate Code** > **Generate Docs**.
+
+## Generate tests
+
+To generate tests for your application code without writing a prompt, you can use the editor smart actions.
+
+1. Open your application code file.
+2. Optionally, select the code you want to test.
+3. Right-click and select **Generate Code** > **Generate Tests**.
+   VS Code generates test code in an existing test file, or creates a new test file if one doesn't exist.
+4. Optionally, refine the generated tests by providing additional context in the Inline Chat prompt.
+
+## Explain code
+
+Get help with explaining a block of code in the editor.
+
+1. Open your application code file.
+2. Select the code you want to fix.
+3. Right-click and select **Explain**.
+   VS Code provides an explanation of the selected block of code.
+
+## Fix coding errors
+
+To fix coding issues for your application code without writing a prompt, you can use the editor smart actions.
+
+1. Open your application code file.
+2. Select the code you want to fix.
+3. Right-click and select **Generate Code** > **Fix**.
+   VS Code provides a code suggestion to fix the code.
+4. Optionally, refine the generated code by providing additional context in the chat prompt.
+
+Alternatively, if there's a compile or linting problem in a code file, VS Code shows a code action in the editor to help resolve the issue.
+
+## Fix testing errors
+
+Get help with fixing failing tests in your codebase, directly from the Test Explorer.
+
+1. In the Test Explorer, hover over a failing test
+2. Select the **Fix Test Failure** button (sparkle icon)
+3. Review and apply Copilot's suggested fix
+
+Alternatively, you can:
+
+1. Open the Chat view
+2. Enter the `/fixTestFailure` command
+3. Follow Copilot's suggestions to fix the test
+
+> Tip: When using agents, the agent monitors the test output when running tests, and automatically attempts to fix and rerun failing tests.
+
+## Fix terminal errors
+
+When a command fails to run in the terminal, VS Code displays a sparkle in the gutter that offers a Quick Fix to explain what happened.
+
+## Review code
+
+VS Code can help with reviewing your code, either for a code block in the editor or all changes included in a pull request (requires the GitHub Pull Requests extension).
+
+To review a code block in the editor:
+
+1. Open your application code file.
+2. Select the code you want to fix.
+3. Right-click and select **Generate Code** > **Review**.
+   VS Code creates review comments in the **Comments** panel and also shows them inline in the editor.
+
+To review all changes in a pull request:
+
+1. Create a pull request with the GitHub Pull Requests extension
+2. Select the **Code Review** button in the **Files Changed** view.
+   VS Code creates review comments in the **Comments** panel and also shows them inline in the editor.
+
+## Semantic search results (Preview)
+
+The Search view in VS Code enables you to search for text across your files. Semantic search enables you to find results that are semantically relevant to your search query, even if they don't match the text exactly. This is particularly useful when you're looking for code snippets or documentation that relate to a concept rather than a specific term, or when you don't know the exact terms to search for.
+
+Configure semantic search in the Search view with the `search.searchView.semanticSearchBehavior` setting. You can choose to run semantic search automatically, or only when you explicitly request it.
+
+You can also get AI-generated keyword suggestions in the Search view to provide relevant alternative search terms. Enable search keyword suggestions with the `search.searchView.keywordSuggestions` setting.
+
+You can reference search results in your chat prompt by selecting **Get results from the search view** from the **Add Context** Quick Pick. Alternatively, type `#searchResults` in the chat prompt.
+
+## Search settings with AI
+
+If you don't know the exact name of a setting you want to change, you can use AI to help find the relevant settings based on your search query. For example, you can search for "increase text size" to find the setting that controls the editor font size.
+
+Enable this functionality with the `workbench.settings.showAISearchToggle` setting. In the Settings editor, you can then toggle the AI search results on or off with the **Search Settings with AI** button.
+
+- Get started with the Copilot Quickstart.

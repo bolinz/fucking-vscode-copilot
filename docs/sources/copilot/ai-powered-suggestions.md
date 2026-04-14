@@ -1,0 +1,126 @@
+---
+title: "Inline suggestions from GitHub Copilot in VS Code"
+description: "Get AI-powered inline suggestions from GitHub Copilot in VS Code, including ghost text completions and next edit suggestions."
+source: "https://code.visualstudio.com/docs/copilot/ai-powered-suggestions"
+---
+
+GitHub Copilot in VS Code provides AI-powered inline suggestions that complete your code, comments, tests, and more as you type. Inline suggestions work with a broad range of programming languages and frameworks. They are one of several AI surfaces in VS Code, alongside agents for autonomous multi-file tasks, chat, and smart actions.
+
+You might experience two kinds of inline suggestions from Copilot, both of which match your coding style and take your existing code into account:
+
+- **Ghost text suggestions**: Start typing in the editor, and Copilot provides dimmed *ghost text* suggestions at your current cursor location.
+- **Next edit suggestions**: Predict your next code edit with Copilot next edit suggestions, aka Copilot NES. Based on the edits you're making, NES both predicts the location of the next edit you'll want to make and what that edit should be.
+
+## Prerequisites
+
+- Visual Studio Code installed on your machine. Follow these steps to set up VS Code.
+- Access to a GitHub Copilot subscription. Follow these steps to set up GitHub Copilot. You can set up Copilot Free to get a monthly limit of inline suggestions and chat interactions.
+
+## Ghost text suggestions
+
+### Getting your first suggestions
+
+Copilot offers dimmed *ghost text* suggestions as you type: sometimes the completion of the current line, sometimes a whole new block of code.
+
+1. Open a file in a programming language of your choice and start typing. You should see inline suggestions from Copilot as you type.
+   The following example shows how Copilot suggests an implementation of the `calculateDaysBetweenDates` JavaScript function by using dimmed *ghost text*:
+
+2. Accept a suggestion by pressing the Tab key.
+   To partially accept a suggestion, use the ⌘→ (Windows, Linux Ctrl+Right) keyboard shortcut to accept either the next word of a suggestion, or the next line.
+
+### Alternative suggestions
+
+For any given input, Copilot might offer multiple, alternative suggestions. You can hover over the suggestion to any of the other suggestions.
+
+Instead of relying on Copilot to provide suggestions, you can provide hints about what code you expect by using code comments. For example, you could specify a type of algorithm or concept to use (for example, "use recursion" or "use a singleton pattern"), or which methods and properties to add to a class.
+
+## Next edit suggestions
+
+Ghost text suggestions are great at autocompleting a section of code. But since most coding activity is editing existing code, it's a natural evolution of inline suggestions to also help with edits, both at the cursor and further away. Edits are often not made in isolation - there's a logical flow of what edits need to be made in different scenarios. Next edit suggestions (Copilot NES) is this evolution.
+
+Based on the edits you're making, next edit suggestions predict both the location of the next edit you'll want to make and what that edit should be. Copilot NES helps you stay in the flow, suggesting future changes relevant to your current work, and you can Tab to quickly navigate and accept Copilot's suggestions. Suggestions might span a single symbol, an entire line, or multiple lines, depending on the scope of the potential change.
+
+To get started with Copilot NES, enable the VS Code setting `github.copilot.nextEditSuggestions.enabled`.
+
+### Navigate and accept edit suggestions
+
+You can quickly navigate to suggested code changes with the Tab key, saving you time to find the next relevant edit (no manual searching through files or references required). You can then accept a suggestion with the Tab key again.
+
+An arrow in the gutter indicates if there is an edit suggestion available. The arrow indicates where the next edit suggestion is located, relative to your current cursor position.
+
+You can hover over the arrow to explore the edit suggestion menu, which includes keyboard shortcuts and settings configuration:
+
+> Important: If you are a VS Code vim extension user, please use the latest version of the extension to avoid any conflicts in keybindings with NES.
+
+### Reduce distractions by edit suggestions
+
+By default, edit suggestions are indicated by the gutter arrow and the code changes are shown in the editor. Enable the `editor.inlineSuggest.edits.showCollapsed` setting to show the code changes in the editor only until you press the Tab key to navigate to the suggestion or until you hover over the gutter arrow. Alternatively, hover over the gutter arrow and select the **Show Collapsed** option from the menu.
+
+### Use cases for next edit suggestions
+
+**Catching and correcting mistakes**
+
+- **Copilot helps with simple mistakes like typos.** It'll suggest fixes where letters are missing or swapped, like `cont x = 5` or `conts x = 5`, which should've been `const x = 5`.
+- **Copilot can also help with more challenging mistakes in logic**, like an inverted ternary expression, or a comparison that should've used `&&` instead of `||`.
+
+**Changing intent**
+
+- **Copilot suggests changes to the rest of your code that match a new change in intent.** For example, when changing a class from `Point` to `Point3D`, Copilot will suggest to add a `z` variable to the class definition. After accepting the change, Copilot NES next recommends adding `z` to the distance calculation.
+
+**Refactoring**
+
+- **Rename a variable once in a file, and Copilot will suggest to update it everywhere else.** If you use a new name or naming pattern, Copilot suggests to update subsequent code similarly.
+- **Matching code style.** After copy-pasting some code, Copilot will suggest how to adjust it to match the current code where the paste happened.
+
+## Enable or disable inline suggestions
+
+You can enable or disable inline suggestions either for all languages or for specific languages only. To enable or disable inline suggestions, select the Copilot menu in the Status Bar, and then check or uncheck the options to enable or disable inline suggestions. The option to disable inline suggestions for a specific language is dependent on the language of the active editor.
+
+Alternatively, modify the `github.copilot.enable` setting in the Settings editor. Add an entry for each language you want to enable or disable inline suggestions for. To enable or disable inline suggestions for all languages, set the value for `*` to `true` or `false`.
+
+To temporarily disable all inline suggestions in the editor, select the Copilot menu in the Status Bar, and then select the **Snooze** button to increment the snooze time by five minutes. To resume inline suggestions, select the **Cancel Snooze** button in the Copilot menu.
+
+Alternatively, use the **Snooze Inline Suggestions** and **Cancel Snooze Inline Suggestions** commands in the Command Palette.
+
+## Change the AI model for suggestions
+
+Different Large Language Models (LLMs) are trained on different types of data and might have different capabilities and strengths. Learn more about how to choose between different AI language models in VS Code.
+
+To change the language model that is used for generating ghost text suggestions in the editor:
+
+1. Open the Command Palette (F1).
+2. Type **change completions model** and select the **GitHub Copilot: Change Completions Model** command.
+3. In the dropdown menu, select the model you want to use.
+
+> Note: The list of available models might vary and change over time. The model picker may not always show more than one model, and preview models and additional inline suggestion models will become available there if/when we release them. If you are a Copilot Business or Enterprise user, your Administrator needs to enable certain models for your organization by opting in to `Editor Preview Features` in the Copilot policy settings on GitHub.com.
+
+## Tips & tricks
+
+### Context
+
+To give you relevant inline suggestions, Copilot looks at the current and open files in your editor to analyze the context and create appropriate suggestions. Having related files open in VS Code while using Copilot helps set this context and lets Copilot get a bigger picture of your project.
+
+## Settings
+
+### Ghost text suggestions settings
+
+- `github.copilot.enable` - enable or disable inline completions for all or specific languages.
+- `editor.inlineSuggest.fontFamily` - configure the font for the inline completions.
+- `editor.inlineSuggest.showToolbar` - enable or disable the toolbar that appears for inline completions.
+- `editor.inlineSuggest.syntaxHighlightingEnabled` - enable or disable syntax highlighting for inline completions.
+
+### Next edit suggestions settings
+
+- `github.copilot.nextEditSuggestions.enabled` - enable Copilot next edit suggestions (Copilot NES).
+- `editor.inlineSuggest.edits.allowCodeShifting` - configure if Copilot NES is able to shift your code to show a suggestion.
+- `editor.inlineSuggest.edits.renderSideBySide` - configure if Copilot NES can show larger suggestions side-by-side if possible, or if Copilot NES should always show larger suggestions below the relevant code.
+  - **auto (default)**: show larger edit suggestions side-by-side if there is enough space in the viewport, otherwise the suggestions are shown below the relevant code.
+  - **never**: never show suggestions side-by-side, always show suggestions below the relevant code.
+- `github.copilot.nextEditSuggestions.fixes` - enable next edit suggestions based on diagnostics (squiggles). For example, missing imports.
+- `editor.inlineSuggest.minShowDelay` - Time in milliseconds to wait before showing inline suggestions. Default is `0`.
+
+## Next steps
+
+- Discover the key features in the Quickstart.
+- Use AI chat conversations with chat in VS Code.
+- Watch the videos in our VS Code Copilot Series on YouTube.
