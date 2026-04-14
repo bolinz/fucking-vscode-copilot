@@ -1,6 +1,6 @@
 # Copilot 生存指南
 
-让 VS Code Copilot 这个垃圾正常工作的知识库。
+一个专门研究 VS Code Copilot Chat 到底有多烂、烂在哪里、为什么会烂，以及怎么让这个烂货勉强正常工作的知识库。
 
 ## 目录结构
 
@@ -9,7 +9,7 @@ docs/
 ├── sources/              # 抓取的官方文档（只读）
 │   ├── copilot/          # VS Code Copilot 官方文档
 │   └── agentskills/      # Agent Skills 规范文档
-└── guides/               # 本项目生成的避坑指南
+└── guides/               # 本项目生成的拆解与避坑指南
     └── copilot-pitfalls.md
 ```
 
@@ -49,15 +49,29 @@ docs/
 | `skill-creation/using-scripts.md` | 在 Skill 中运行脚本 |
 | `client-implementation/adding-skills-support.md` | 给 Agent 添加 Skills 支持 |
 
-### docs/guides/ — 本项目避坑指南
+### docs/guides/ — 本项目原创指南
 
 | 文件 | 说明 |
 |------|------|
-| `copilot-pitfalls.md` | Copilot 常见坑汇总（待编写） |
+| `copilot-pitfalls.md` | 专注分析 VS Code Copilot Chat 为什么难用、难用在哪、怎么尽量用顺 |
 
 ## 背景
 
-VS Code Copilot 文档散落在各处，且官方教程往往回避了实际使用中的痛点。本项目通过整理官方文档 + Agent Skills 规范 + 踩坑经验，让 Copilot 从"人工智障"变成真正可用的工具。
+VS Code Copilot Chat 的官方文档会告诉你功能入口，但很少正面回答几个更实际的问题：
+
+- 为什么它经常一副很懂的样子，结果越做越偏
+- 为什么 `Plan` 看起来很完整，落地时却不断漏前提
+- 为什么 `Agent` 已经开始干活了，但你还是不放心
+- 为什么它明明集成在 VS Code 里，用起来却还是一股半成品味
+
+这个仓库就是围绕这些问题建立的。这里不打算替它洗地，也不打算做泛 AI 工具百科，而是专门拆 VS Code Copilot Chat：
+
+- 它具体烂在哪里
+- 这些问题为什么会发生
+- 哪些任务最容易把它用崩
+- 在接受它就这水平的前提下，怎样把它调教到至少能干活
+
+`docs/sources/` 保留官方文档原文，`docs/guides/` 负责把这些文档和实际踩坑体验重新组织成更直接、更不客气、也更有操作性的说明。
 
 ## 来源
 
