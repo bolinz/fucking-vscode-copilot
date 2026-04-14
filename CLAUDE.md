@@ -45,3 +45,14 @@ docs/
 4. 写入 `.md` 文件并补全 frontmatter
 
 抓取格式：`mcp__open-webSearch__fetchWebContent`，readability=true，从返回的 `content` 字段取 Markdown 内容。
+
+## 分支管理
+
+**所有变更必须通过 PR 合入 main 分支，禁止直接推送 main。**
+
+工作流：
+1. 从 `main` 创建新分支：`git checkout -b feat/xxx`
+2. 在新分支上完成修改
+3. 推送到远程：`git push -u origin feat/xxx`
+4. 在 GitHub 上创建 Pull Request
+5. PR 合并后删除分支
