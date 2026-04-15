@@ -1,44 +1,31 @@
 # TODO — Copilot 生存指南
 
-## 进行中
+## 已完成
 
-- [x] 抓取自定义配置文档 (task #5) — `customization/` 下 6 个文件
-- [x] 抓取 agentskills 文档 — 10 个页面
-  - `agentskills/home.md`
-  - `agentskills/what-are-skills.md`
-  - `agentskills/specification.md`
-  - `agentskills/clients.md`
-  - `agentskills/client-implementation/adding-skills-support.md`
-  - `agentskills/skill-creation/best-practices.md`
-  - `agentskills/skill-creation/evaluating-skills.md`
-  - `agentskills/skill-creation/optimizing-descriptions.md`
-  - `agentskills/skill-creation/quickstart.md`
-  - `agentskills/skill-creation/using-scripts.md`
+- [x] 抓取自定义配置文档 — `docs/sources/copilot/customization/` 6 个文件
+- [x] 抓取 agentskills 文档 — `docs/sources/agentskills/` 10 个页面
+- [x] 抓取 GitHub Copilot 完整文档 — `docs/sources/github-copilot/` 4 个文件
+- [x] 抓取竞品文档 — `docs/sources/competitors/` (Cursor/Continue/Roo Code)
+- [x] 抓取社区资源 — `docs/sources/community/` (Stack Overflow/GitHub Discussions)
+- [x] 编写 VS Code 配置详解 — `docs/guides/vscode-settings-guide.md`
+- [x] 目录重组 — sources/ (只读) / guides/ (原创) 分离
 
 ## 待收集
 
 ### 核心工具文档
 
-- [ ] **GitHub Copilot 完整文档** — https://docs.github.com/en/copilot
 - [ ] **Claude Code 官方文档** — https://docs.anthropic.com/en/docs/claude-code
+  - 重试失败，待手动抓取
 - [ ] **MCP 协议规范** — https://spec.modelcontextprotocol.io/
+  - 重试失败，待手动抓取
 
 ### 竞品文档（对比参考）
 
-- [ ] **Cursor 文档** — https://docs.cursor.com/
-- [ ] **Continue 文档** — https://docs.continue.ai/
-- [ ] **Roo Code / Cody 文档**
-
-### 实战资源
-
-- [ ] **Stack Overflow Copilot 标签** — https://stackoverflow.com/questions/tagged/github-copilot
-- [ ] **Reddit r/VSCode Copilot 讨论**
-- [ ] **GitHub Copilot discussions**
+- [ ] **Cody (Sourcegraph) 文档** — https://sourcegraph.com/cody
 
 ### 专项深入
 
 - [ ] **Copilot Enterprise 管理员配置**
-- [ ] **Copilot Workspace** — https://github.com/features/copilot-workspace
 - [ ] **各编程语言 Copilot 行为差异**
 
 ### 社区整理的坑
