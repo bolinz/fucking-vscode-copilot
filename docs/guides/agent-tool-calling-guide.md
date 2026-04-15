@@ -40,26 +40,25 @@ Chat 输入框下方有一个权限级别选择器：
 
 ```json
 // 全局自动批准（实验性，有安全风险）
-"chat.tools.autoApprove": true
+"chat.tools.global.autoApprove": true
 
 // 终端命令按正则规则自动批准
 "chat.tools.terminal.autoApprove": {
-  "/^git\\s+(status|diff|log|show)\\b/": true,
+  "/^git\\s+(status|diff|log|show|branch)\\b/": true,
   "/^npm\\s+(test|run\\s+lint)\\b/": true,
   "rm": false,
   "rmdir": false
 }
 
+// 按文件路径配置自动批准
+"chat.tools.edits.autoApprove": {
+  "**/.env": false,
+  "**/secret*.json": false,
+  "**/migrations/**": false
+}
+
 // Autopilot 功能开关
 "chat.autopilot.enabled": true
-```
-
-**旧版设置（仍可用）：**
-```json
-"github.copilot.chat.agent.terminal.allowList": {
-  "git status": true,
-  "npm test": true
-}
 ```
 
 ### Enterprise 策略覆盖
@@ -74,7 +73,7 @@ Chat 输入框下方有一个权限级别选择器：
 
 ## 安全警告
 
-**CVE-2025-29928**：prompt injection 攻击可以在某些条件下自动开启 `chat.tools.autoApprove`。
+**CVE-2025-29928**：prompt injection 攻击可以在某些条件下自动开启 `chat.tools.global.autoApprove`。
 
 - 攻击者通过恶意 prompt 诱导 Copilot 自动批准危险命令
 - 企业环境建议通过策略强制禁用

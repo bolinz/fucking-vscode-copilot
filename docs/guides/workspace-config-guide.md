@@ -61,11 +61,8 @@ Copilot 在当前仓库下所有会话中自动加载此文件，不需要手动
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
-  "editor.inlineSuggest.enabled": true,
-  "github.copilot.chat.agent.defaultMode": "ask",
-  "github.copilot.chat.agent.approvalMode": "explicit",
-  "github.copilot.chat.sessionOnStartup": false,
-  "github.copilot.chat.maxContextItems": 20
+  "chat.includeApplyingInstructions": true,
+  "chat.includeReferencedInstructions": false
 }
 ```
 

@@ -9,9 +9,9 @@ description: "逐条说明 Copilot 各项设置的作用、解决的问题，以
 
 ## 1. 日志与调试
 
-### `github.copilot.chat.logging: "trace"`
+### `github.copilot.chat.agentDebugLog.enabled`
 
-**作用**：将 Copilot Chat 的日志级别设为 trace，记录最详细的推理过程和工具调用。
+**作用**：开启 Agent 调试日志记录。
 
 **解决的问题**：
 - `Plan` 的推理过程像黑箱，不知道它为什么放弃了某个方案
@@ -23,11 +23,11 @@ description: "逐条说明 Copilot 各项设置的作用、解决的问题，以
 - 每次响应的完整上下文使用情况可见
 - 工具调用顺序和返回值可查
 
-**风险**：日志量很大，影响性能，生产环境建议只在排查时开启。
+**风险**：日志量较大，影响性能，生产环境建议只在排查时开启。
 
 ```json
 {
-  "github.copilot.chat.logging": "trace"
+  "github.copilot.chat.agentDebugLog.enabled": true
 }
 ```
 
@@ -85,192 +85,39 @@ description: "逐条说明 Copilot 各项设置的作用、解决的问题，以
 
 ---
 
-## 3. 默认模式
+## 3. 上下文指令加载
 
-### `github.copilot.chat.agent.defaultMode`
+### `chat.includeApplyingInstructions`
 
-**作用**：设置 Copilot Chat 打开时的默认模式。
+**作用**：控制 Copilot 是否自动加载当前仓库的 `.github/copilot-instructions.md` 指令文件。
 
 **解决的问题**：
-- 坑 6：没过 Plan，就直接让 Agent 开工
-- 默认模式太激进，一进来就开始执行，导致失控
-
-**推荐配置**：
+- 写了项目指令文件但 Copilot 不读取
+- 不同仓库的指令互相污染
 
 ```json
 {
-  "github.copilot.chat.agent.defaultMode": "ask"
+  "chat.includeApplyingInstructions": true
 }
 ```
 
-三个可用值：
-- `ask`：默认，进入后先聊天，不自动执行
-- `plan`：默认进入 Plan 模式，适合复杂任务
-- `agent`：默认进入 Agent 模式，最激进
+**建议**：始终保持 `true`，项目级指令是团队约束的基础。
 
-**推荐 `ask` 的原因**：
-- `agent` 模式容易让你跳过思考直接动手
-- `plan` 适合复杂任务，但简单任务会显得多余
-- `ask` 是最保守、最可控的起点
+### `chat.includeReferencedInstructions`
+
+**作用**：控制 Copilot 是否加载被指令文件引用的其他文件（如 `!INCLUDE path/to/file.md`）。
+
+```json
+{
+  "chat.includeReferencedInstructions": false
+}
+```
+
+**建议**：如无跨文件引用需求，保持 `false` 减少干扰。
 
 ---
 
-## 4. 权限审批模式
-
-### `github.copilot.chat.agent.approvalMode`
-
-**作用**：控制 Agent 执行敏感操作（改文件、调工具、跑命令）时的审批级别。
-
-**解决的问题**：
-- 坑 7：权限开太大，却没有监督点
-- Agent 连续改动多个文件后才发现已经走偏
-
-**推荐配置**：
-
-```json
-{
-  "github.copilot.chat.agent.approvalMode": "explicit"
-}
-```
-
-三个级别：
-- `implicit`：Copilot 觉得需要审批时弹出，实际判断模糊
-- `explicit`：每次敏感操作都明确弹窗
-- `bypass`：管理员跳过所有审批
-
-**`explicit` 的意义**：让你在每个关键节点决定是否继续，而不是等 Agent 跑远了再纠偏。
-
-**风险**：频繁弹窗影响体验，但确实能显著降低失控概率。初期使用建议保持 `explicit`。
-
----
-
-## 5. 会话隔离
-
-### `github.copilot.chat.sessionOnStartup`
-
-**作用**：VS Code 启动时自动恢复上一个 Chat session。
-
-**解决的问题**：
-- 坑 11：把 Plan、Ask、Agent 混在一个脏会话里
-- 旧会话残留旧约束、旧上下文，导致新任务被污染
-
-**推荐配置**：
-
-```json
-{
-  "github.copilot.chat.sessionOnStartup": false,
-  "github.copilot.chat.restoreSession": false
-}
-```
-
-**为什么要关**：
-- 每次开工应该是全新的开始
-- 旧会话里的约束不一定适用于当前任务
-- 减少上下文污染的概率
-
-### 长会话定期重开
-
-这条不是配置，而是习惯。Chat 面板右上角有 `New Session` 按钮，不相关任务不要在同一个窗口里持续聊。
-
----
-
-## 6. 上下文控制
-
-### `github.copilot.chat.maxContextItems`
-
-**作用**：限制单次上下文里包含的最大文件/符号数量。
-
-**解决的问题**：
-- 上下文太杂，模型被无关信息干扰
-- 响应开始跑偏，因为参考了不相关的文件
-
-```json
-{
-  "github.copilot.chat.maxContextItems": 20
-}
-```
-
-**效果**：超过 20 个上下文项时，Copilot 会优先保留最相关的，丢弃其余。
-
-**风险**：设置太低可能丢弃重要上下文，20 是保守默认值。
-
-### 提示时显式引用文件
-
-这不是配置，是用法。
-
-❌ 错误示范：
-> "帮我优化这个项目"
-
-✅ 正确示范：
-> "阅读 `src/auth/login.ts`，分析其中的问题，然后给出优化方案"
-
-显式引用让 Copilot 知道你真正关心哪个文件，而不是在猜测。
-
----
-
-## 7. Inline 补全
-
-### `editor.inlineSuggest.enabled`
-
-**作用**：启用内联代码补全（打字时直接显示灰色建议文本）。
-
-**解决的问题**：
-- 补全不是 Agent 模式，不需要额外的上下文管理
-- 单文件、重复性代码直接补全效率最高
-
-```json
-{
-  "editor.inlineSuggest.enabled": true
-}
-```
-
-### `github.copilot.inlineSuggest.enable`
-
-**作用**：总开关，控制 Copilot 的 inline 补全。
-
-```json
-{
-  "github.copilot.inlineSuggest.enable": true
-}
-```
-
-### `github.copilot.codeReferences.enabled`
-
-**作用**：补全结果中显示代码引用（补全建议来自哪个文件）。
-
-**解决的问题**：
-- 补全质量低时不知道参考了什么
-- 判断补全是否可信
-
-```json
-{
-  "github.copilot.codeReferences.enabled": true
-}
-```
-
----
-
-## 8. Smart Context
-
-### `github.copilot.chat.smartContext`
-
-**作用**：让 Copilot 自动判断哪些文件与当前任务相关，智能选择上下文。
-
-**解决的问题**：
-- 手动选文件太累，容易遗漏
-- 全选文件太多，干扰大
-
-```json
-{
-  "github.copilot.chat.smartContext": true
-}
-```
-
-**风险**：智能判断不一定准，关键模块必要时显式引用。
-
----
-
-## 9. MCP 服务器
+## 4. MCP 服务器
 
 ### MCP 配置
 
@@ -303,7 +150,7 @@ MCP（Model Context Protocol）允许 Copilot 连接外部工具和数据集。
 
 ---
 
-## 10. 插件组合
+## 5. 插件组合
 
 ### 必装
 
@@ -323,30 +170,22 @@ MCP（Model Context Protocol）允许 Copilot 连接外部工具和数据集。
 
 ## 配置清单
 
-完整配置 `settings.json`：
+以下为经过官方验证的推荐配置：
 
 ```json
 {
   // 核心功能
-  "github.copilot.chat.agent.enabled": true,
-  "github.copilot.chat.agent.defaultMode": "ask",
-  "github.copilot.chat.agent.approvalMode": "explicit",
+  "chat.agent.enabled": true,
 
-  // 日志
-  "github.copilot.chat.logging": "trace",
+  // 上下文指令
+  "chat.includeApplyingInstructions": true,
+  "chat.includeReferencedInstructions": false,
 
-  // 会话隔离
-  "github.copilot.chat.sessionOnStartup": false,
-  "github.copilot.chat.restoreSession": false,
+  // 调试
+  "github.copilot.chat.agentDebugLog.enabled": true,
 
-  // 上下文
-  "github.copilot.chat.maxContextItems": 20,
-  "github.copilot.chat.smartContext": true,
-
-  // 补全
-  "editor.inlineSuggest.enabled": true,
-  "github.copilot.inlineSuggest.enable": true,
-  "github.copilot.codeReferences.enabled": true
+  // 会话：右上角 New Session 按钮随手点，不要在一个脏会话里持续工作
+  // 补全：编辑器内补全默认已启用，无需额外配置
 }
 ```
 
@@ -358,16 +197,16 @@ MCP（Model Context Protocol）允许 Copilot 连接外部工具和数据集。
 
 | 坑编号 | 对应配置或操作 |
 |--------|--------------|
-| 坑 1-3 | `defaultMode: ask` + 项目指令文件 |
+| 坑 1-3 | 项目指令文件 + 提示时显式引用文件 |
 | 坑 4 | 不要把 Plan 当长期记忆，及时落盘 |
-| 坑 5-6 | `defaultMode: ask`，先用 Plan |
-| 坑 7 | `approvalMode: explicit` |
-| 坑 8-9 | `approvalMode: explicit` + 监督点 |
-| 坑 10 | `copilot-instructions.md` |
-| 坑 11 | `sessionOnStartup: false`，定期重开 session |
+| 坑 5-6 | 复杂任务先用 Plan，习惯 `chat.planAgent.defaultModel` |
+| 坑 7 | 在 Chat 权限选择器里选 `Default Approvals`，关键操作手点确认 |
+| 坑 8-9 | `Default Approvals` + 监督点，不要开 Bypass |
+| 坑 10 | `.github/copilot-instructions.md` |
+| 坑 11 | 定期点 `New Session`，不要在旧会话里持续工作 |
 | 坑 12 | 提示时显式引用文件，不要盲猜 |
 | 坑 13 | 不要在 prompt 里塞敏感信息 |
-| 坑 14 | `logging: trace` + 调试视图 |
+| 坑 14 | `github.copilot.chat.agentDebugLog.enabled: true` + 调试视图 |
 
 ## 后续
 
