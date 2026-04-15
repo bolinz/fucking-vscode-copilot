@@ -8,6 +8,7 @@
 - [GitHub Discussions](./github-discussions-2026-04.md) — 官方社区讨论
 - [Reddit](./reddit-2026-04.md) — r/vscode 等社区帖子
 - [StackOverflow](./stackoverflow-2026-04.md) — 技术问答
+- [Terminal 输出与测试问题](./terminal-output-2026-04.md) — Copilot 无法读取终端输出和测试结果的案例
 
 ## 分类标签
 
