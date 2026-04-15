@@ -6,6 +6,7 @@
 
 - [copilot-pitfalls.md](./copilot-pitfalls.md) — 拆解 VS Code Copilot Chat 在 `Plan / Agent`、上下文、权限和排障上的常见问题
 - [copilot-user-level-fixes.md](./copilot-user-level-fixes.md) — 整理普通用户自己就能做的改善手段，包括 sessions、instructions、prompt files、custom agents、hooks、MCP 和关键设置
+- [user-reports/](./user-reports/) — 收集互联网上的真实踩坑案例（GitHub Issues、Discussions、Reddit、StackOverflow）
 
 ## 投稿
 
