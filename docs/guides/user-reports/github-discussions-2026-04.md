@@ -2,7 +2,7 @@
 title: "GitHub Discussions 案例"
 description: "来自 GitHub Community 的真实案例"
 source: https://github.com/community
-date: 2026-04-15
+date: 2026-04-18
 type: collection
 ---
 
