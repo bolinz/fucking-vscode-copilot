@@ -27,9 +27,16 @@ docs/
 │       ├── home.md, what-are-skills.md, specification.md
 │       ├── skill-creation/, client-implementation/
 │       └── llms.txt
-└── guides/              # 本项目生成的拆解与避坑指南
-    ├── README.md
-    └── copilot-pitfalls.md
+├── guides/              # 本项目生成的拆解与避坑指南
+│   ├── README.md
+│   └── copilot-pitfalls.md
+└── examples/            # agent/skill 定义示例
+    ├── agents/
+    │   ├── generic-brainstorm.md
+    │   └── dev-brainstorm.md
+    └── skills/
+        └── generic-brainstorm/
+            └── SKILL.md
 ```
 
 ## 目录原则
